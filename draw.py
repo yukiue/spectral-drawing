@@ -39,7 +39,7 @@ y = list(eigenvec[2])
 z = list(eigenvec[3])
 
 for i in range(len(eigenvec)):
-    print(i, x[i], y[i], z[i])
+    print(i + 1, x[i], y[i], z[i])
 
 fig = plt.figure()
 ax = Axes3D(fig)
