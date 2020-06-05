@@ -16,31 +16,39 @@ with open('list.txt', 'r') as f:
 # nx.draw_spectral(g)
 # plt.show()
 
-# laplacian = nx.laplacian_matrix(g)
-# print(laplacian)
+n = len(g.nodes)
+A = np.zeros((n, n))
 
-A = nx.to_numpy_array(g)
+for i in sorted(g.nodes(), key=lambda i: int(i)):
+    for j in sorted(g.nodes(), key=lambda i: int(i)):
+        if (i, j) in g.edges():
+            A[int(i) - 1, int(j) - 1] = g[i][j]['weight']
+
 D = np.diag(np.sum(A, axis=1))
 L = D - A
 
 eigenval, eigenvec = np.linalg.eigh(L)
 
-for i in range(len(eigenvec)):
-    eigenvec.T[i] = eigenvec.T[i] / np.linalg.norm(eigenvec.T[i])
-
 eigenvec = eigenvec.T
 
 for i in range(len(eigenvec)):
-    print(i, eigenvec[1][i], eigenvec[2][i], eigenvec[3][i])
+    eigenvec[i] = eigenvec[i] / np.linalg.norm(eigenvec[i])
 
 x = list(eigenvec[1])
 y = list(eigenvec[2])
 z = list(eigenvec[3])
+
+for i in range(len(eigenvec)):
+    print(i, x[i], y[i], z[i])
 
 fig = plt.figure()
 ax = Axes3D(fig)
 ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z')
-ax.plot(x, y, z, marker='o')
+ax.plot(x, y, z, marker='o', linestyle='None', color='black')
+for i, j in g.edges():
+    ax.plot([x[int(i) - 1], x[int(j) - 1]], [y[int(i) - 1], y[int(j) - 1]],
+            [z[int(i) - 1], z[int(j) - 1]],
+            color='green')
 plt.show()
