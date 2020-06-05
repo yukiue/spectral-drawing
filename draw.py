@@ -3,6 +3,7 @@
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 g = nx.Graph()
 
@@ -22,10 +23,24 @@ A = nx.to_numpy_array(g)
 D = np.diag(np.sum(A, axis=1))
 L = D - A
 
-eigenval, eigenvec = np.linalg.eig(L)
+eigenval, eigenvec = np.linalg.eigh(L)
 
 for i in range(len(eigenvec)):
-    eigenvec[i] = eigenvec[i] / np.linalg.norm(eigenvec[i])
+    eigenvec.T[i] = eigenvec.T[i] / np.linalg.norm(eigenvec.T[i])
 
-for i in range(nx.number_of_nodes(g)):
+eigenvec = eigenvec.T
+
+for i in range(len(eigenvec)):
     print(i, eigenvec[1][i], eigenvec[2][i], eigenvec[3][i])
+
+x = list(eigenvec[1])
+y = list(eigenvec[2])
+z = list(eigenvec[3])
+
+fig = plt.figure()
+ax = Axes3D(fig)
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('z')
+ax.plot(x, y, z, marker='o')
+plt.show()
