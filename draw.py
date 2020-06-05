@@ -51,4 +51,5 @@ for i, j in g.edges():
     ax.plot([x[int(i) - 1], x[int(j) - 1]], [y[int(i) - 1], y[int(j) - 1]],
             [z[int(i) - 1], z[int(j) - 1]],
             color='green')
-plt.show()
+# plt.show()
+fig.savefig('C20.jpg')
