@@ -26,6 +26,8 @@ for i in sorted(g.nodes(), key=lambda i: int(i)):
 D = np.diag(np.sum(A, axis=1))
 L = D - A
 
+print(L)
+
 eigenval, eigenvec = np.linalg.eigh(L)
 
 eigenvec = eigenvec.T
@@ -37,7 +39,8 @@ x = list(eigenvec[1])
 y = list(eigenvec[2])
 
 for i in range(len(eigenvec)):
-    print(i + 1, x[i], y[i])
+    # print(i + 1, x[i], y[i])
+    print(f'{i + 1} {x[i]:.2f} {y[i]:.2f}')
 
 fig, ax = plt.subplots()
 ax.set_xlabel('x')
